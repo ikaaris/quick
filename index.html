@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QUICK BRAIN – Tantangan Otak Kilat (Rasio Kelas 6)</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070514;--cy:#19f3ff;--mg:#ff2bd6;--yl:#ffe629;--gr:#35ff8a;--rd:#ff4d5e;--tx:#f3f0ff;--panel:#150f33}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--tx);font-family:'Nunito',system-ui,sans-serif;font-weight:700}
+#bg{position:fixed;inset:0;background:
+ radial-gradient(circle at 20% 10%,#3a0f66 0,transparent 45%),radial-gradient(circle at 85% 90%,#06475a 0,transparent 45%),var(--bg);z-index:0}
+#bg::after{content:"";position:absolute;inset:-50% -50% 0;background-image:linear-gradient(#19f3ff22 1px,transparent 1px),linear-gradient(90deg,#19f3ff22 1px,transparent 1px);background-size:60px 60px;transform:perspective(500px) rotateX(60deg);animation:grid 3s linear infinite}
+@keyframes grid{to{background-position:0 60px}}
+h1,h2,.hd{font-family:'Orbitron','Trebuchet MS',sans-serif;font-weight:800}
+.scr{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;padding:16px;z-index:2;overflow:auto}
+.scr.on{display:flex}
+.logo{font-size:clamp(2.2rem,8vw,5rem);color:var(--cy);text-shadow:0 0 12px var(--cy),0 0 40px var(--mg);letter-spacing:.04em;text-align:center;line-height:1}
+.logo span{color:var(--mg);text-shadow:0 0 12px var(--mg),0 0 40px var(--cy)}
+.sub{margin:12px 0 22px;font-size:clamp(1rem,2.6vw,1.4rem);color:var(--yl);text-align:center}
+.box{background:#150f33cc;border:2px solid var(--cy);border-radius:22px;padding:22px;box-shadow:0 0 30px #19f3ff55,inset 0 0 20px #19f3ff22;width:min(560px,94vw);display:flex;flex-direction:column;gap:14px;align-items:stretch;backdrop-filter:blur(6px)}
+input{font:inherit;font-size:1.5rem;padding:14px 16px;border-radius:14px;border:3px solid var(--mg);background:#0b0720;color:var(--tx);text-align:center;outline:none}
+input:focus{box-shadow:0 0 20px var(--mg)}
+.btn{font-family:'Orbitron','Trebuchet MS',sans-serif;font-weight:800;font-size:clamp(1rem,2.4vw,1.35rem);padding:16px 22px;border-radius:16px;border:3px solid var(--gr);background:#0c2a1f;color:var(--gr);cursor:pointer;transition:.15s;text-shadow:0 0 8px currentColor}
+.btn:hover,.btn.hov{transform:scale(1.05);box-shadow:0 0 30px currentColor;background:#123f2e}
+.btn.alt{border-color:var(--yl);color:var(--yl);background:#2e2807}
+#st{min-height:1.4em;text-align:center;font-size:1rem;color:var(--yl)}
+.tip{font-size:.95rem;color:#c9c2ee;text-align:center;line-height:1.4}
+/* game */
+#top{position:fixed;top:0;left:0;right:0;display:flex;gap:10px;align-items:center;justify-content:space-between;padding:10px 14px;z-index:3;flex-wrap:wrap}
+.chip{background:#150f33dd;border:2px solid var(--cy);border-radius:14px;padding:6px 14px;font-family:'Orbitron','Trebuchet MS',sans-serif;font-size:clamp(.8rem,2vw,1.1rem);box-shadow:0 0 14px #19f3ff44;white-space:nowrap}
+.chip b{color:var(--yl)}
+#lv{display:flex;gap:6px;align-items:center}
+.dot{width:clamp(22px,4vw,34px);height:12px;border-radius:8px;background:#2a2150;border:1px solid var(--cy)}
+.dot.d{background:var(--gr);box-shadow:0 0 10px var(--gr)}.dot.c{background:var(--mg);box-shadow:0 0 12px var(--mg);animation:pl 1s infinite alternate}
+@keyframes pl{to{opacity:.45}}
+#tm{color:var(--gr)}#tm.lo{color:var(--rd);border-color:var(--rd);animation:pl .4s infinite alternate}
+#bar{position:fixed;top:0;left:0;height:6px;background:linear-gradient(90deg,var(--gr),var(--yl),var(--rd));z-index:4;width:100%;transform-origin:left}
+#game{justify-content:flex-start;padding-top:70px;gap:14px}
+#qc{width:min(1000px,96vw);background:var(--panel);border:3px solid var(--mg);border-radius:24px;padding:clamp(14px,3vh,28px);text-align:center;box-shadow:0 0 36px #ff2bd666}
+#qk{display:inline-block;font-family:'Orbitron','Trebuchet MS',sans-serif;font-size:.85rem;background:var(--mg);color:#fff;padding:4px 14px;border-radius:20px;margin-bottom:10px}
+#qt{font-size:clamp(1.15rem,3.2vw,2rem);line-height:1.35;font-weight:900}
+#ans{width:min(1000px,96vw);flex:1;min-height:0;max-height:62vh;display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,2vw,20px)}
+.ans{position:relative;display:flex;align-items:center;gap:14px;text-align:left;font:inherit;font-weight:900;font-size:clamp(1.1rem,3vw,2rem);color:var(--tx);padding:12px 16px;border-radius:22px;border:4px solid var(--c);background:linear-gradient(135deg,#1b1340,#0d0925);cursor:pointer;transition:transform .15s,box-shadow .15s;box-shadow:0 0 16px color-mix(in srgb,var(--c) 45%,transparent)}
+.ans i{font-style:normal;flex:none;width:clamp(42px,6vw,64px);height:clamp(42px,6vw,64px);border-radius:16px;background:var(--c);color:#0a0620;display:grid;place-items:center;font-family:'Orbitron','Trebuchet MS',sans-serif;font-size:clamp(1.3rem,3.5vw,2.2rem)}
+.ans:nth-child(1){--c:var(--cy)}.ans:nth-child(2){--c:var(--mg)}.ans:nth-child(3){--c:var(--yl)}.ans:nth-child(4){--c:var(--gr)}
+.ans.hov,.ans:hover{transform:scale(1.04);box-shadow:0 0 40px var(--c),inset 0 0 26px color-mix(in srgb,var(--c) 40%,transparent)}
+.ans.ok{background:#0f5a2e;border-color:var(--gr);animation:pop .5s}
+.ans.no{background:#5a0f1b;border-color:var(--rd);animation:shake .45s}
+.ans.dim{opacity:.35;pointer-events:none}
+@keyframes pop{50%{transform:scale(1.12)}}
+@keyframes shake{25%{transform:translateX(-14px)}75%{transform:translateX(14px)}}
+.lock{position:absolute;right:12px;top:6px;font-size:1.6rem}
+/* overlays */
+.ov{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:10;background:#050310dd;padding:16px}
+.ov.on{display:flex}
+#intro h1{font-size:clamp(3rem,14vw,9rem);color:var(--yl);text-shadow:0 0 30px var(--yl);animation:zoom 1.4s both;text-align:center}
+#intro p{text-align:center;font-size:1.6rem;color:var(--cy);margin-top:8px}
+@keyframes zoom{0%{transform:scale(.2);opacity:0}30%{transform:scale(1.1);opacity:1}100%{transform:scale(1)}}
+#fb .box{text-align:center;max-width:640px}
+#fbi{font-size:4.5rem;animation:pop .6s}
+#fbt{font-size:clamp(1.5rem,5vw,2.4rem)}
+#fbe{font-size:clamp(1rem,2.6vw,1.3rem);line-height:1.5;color:#ded8ff}
+#fbs{color:var(--yl);font-family:'Orbitron','Trebuchet MS',sans-serif}
+/* result */
+#stars{font-size:3.2rem;letter-spacing:6px}
+#rt{font-size:clamp(1.6rem,5vw,2.8rem);color:var(--yl);text-align:center;text-shadow:0 0 20px var(--yl)}
+#rm{text-align:center;font-size:1.2rem;line-height:1.5}
+.big{font-family:'Orbitron','Trebuchet MS',sans-serif;font-size:2.6rem;color:var(--cy);text-align:center;text-shadow:0 0 16px var(--cy)}
+/* camera */
+#cam{position:fixed;right:10px;bottom:10px;width:170px;height:128px;border-radius:14px;border:3px solid var(--gr);object-fit:cover;transform:scaleX(-1);z-index:20;display:none;box-shadow:0 0 18px var(--gr)}
+#cur{position:fixed;left:0;top:0;width:54px;height:54px;margin:-27px 0 0 -27px;border-radius:50%;border:4px solid var(--cy);box-shadow:0 0 20px var(--cy),inset 0 0 14px var(--cy);z-index:30;pointer-events:none;display:none;transition:width .1s,height .1s,background .1s}
+#cur.pin{border-color:var(--yl);background:#ffe62966;box-shadow:0 0 30px var(--yl);transform:scale(.7)}
+#conf{position:fixed;inset:0;pointer-events:none;z-index:25}
+@media (max-width:640px){#ans{grid-template-columns:1fr}#cam{width:110px;height:82px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+:focus-visible{outline:4px solid var(--yl);outline-offset:3px}
+</style>
+</head>
+<body>
+<div id="bg"></div>
+<canvas id="conf"></canvas>
+<video id="cam" playsinline muted></video>
+<div id="cur"></div>
+
+<!-- MULAI -->
+<section id="s0" class="scr on">
+  <h1 class="logo">QUICK <span>BRAIN</span></h1>
+  <p class="sub">Tantangan Otak Kilat · Rasio · Kelas 6</p>
+  <div class="box">
+    <label for="nm" class="tip">Siapa namamu, Pahlawan Rasio?</label>
+    <input id="nm" maxlength="18" placeholder="Ketik namamu" autocomplete="off">
+    <button class="btn hand" id="bCam">📷 MAIN DENGAN KAMERA</button>
+    <button class="btn alt hand" id="bMouse">🖱️ MAIN DENGAN MOUSE / SENTUH</button>
+    <div id="st"></div>
+    <p class="tip">Mode kamera: gerakkan telapak tanganmu ke kotak jawaban, lalu <b>cubit</b> (ibu jari + telunjuk) untuk mengunci jawaban. Pastikan tanganmu terlihat jelas dan ruangan cukup terang.</p>
+  </div>
+</section>
+
+<!-- GAME -->
+<section id="game" class="scr">
+  <div id="bar"></div>
+  <div id="top">
+    <div class="chip" id="pn">👾</div>
+    <div class="chip" id="lv"></div>
+    <div class="chip">Skor <b id="sc">0</b></div>
+    <div class="chip" id="tm">⏱ 25</div>
+  </div>
+  <div id="qc"><div id="qk"></div><div id="qt"></div></div>
+  <div id="ans"></div>
+</section>
+
+<div class="ov" id="intro"><div><h1 id="ih"></h1><p id="ip"></p></div></div>
+
+<div class="ov" id="fb"><div class="box">
+  <div id="fbi"></div><h2 id="fbt"></h2><div id="fbe"></div><div id="fbs"></div>
+  <button class="btn hand" id="nx">LANJUT ▶</button>
+</div></div>
+
+<!-- HASIL -->
+<section id="s2" class="scr">
+  <div id="stars"></div>
+  <h2 id="rt"></h2>
+  <div class="big" id="rs"></div>
+  <div class="box"><div id="rm"></div></div>
+  <button class="btn hand" id="again">🔁 MAIN LAGI</button>
+</section>
+
+<script>
+/* ===== BANK SOAL: 5 level x 3 soal (LOTS, MOTS, HOTS) ===== */
+const LV=[
+{n:"Kenalan Rasio",qs:[
+ {k:"LOTS",q:"Di kelas ada 12 siswa laki-laki dan 18 siswa perempuan. Berapa rasio siswa laki-laki : perempuan dalam bentuk paling sederhana?",o:["2 : 3","3 : 2","12 : 30","1 : 2"],a:0,e:"12 : 18 dibagi 6 (FPB-nya) menjadi 2 : 3."},
+ {k:"MOTS",q:"Perbandingan kelereng merah dan biru adalah 3 : 5. Jika kelereng merah ada 9, berapa kelereng biru?",o:["12","15","18","14"],a:1,e:"3 menjadi 9 berarti dikali 3. Maka 5 × 3 = 15 kelereng biru."},
+ {k:"HOTS",q:"Budi berkata, “Rasio 6 : 9 dan 10 : 15 itu berbeda karena angkanya berbeda.” Pernyataan yang benar adalah …",o:["Budi benar, angkanya tidak sama","Budi salah, keduanya sama dengan 2 : 3","Budi salah, keduanya sama dengan 3 : 2","Budi benar, 6 lebih kecil dari 10"],a:1,e:"6 : 9 = 2 : 3 (dibagi 3) dan 10 : 15 = 2 : 3 (dibagi 5). Keduanya rasio setara."}]},
+{n:"Rasio Setara",qs:[
+ {k:"LOTS",q:"Bentuk paling sederhana dari rasio 20 : 30 adalah …",o:["4 : 6","2 : 3","10 : 15","3 : 2"],a:1,e:"20 dan 30 sama-sama dibagi 10, hasilnya 2 : 3."},
+ {k:"MOTS",q:"Manakah rasio yang setara dengan 4 : 7?",o:["8 : 15","12 : 21","16 : 20","14 : 8"],a:1,e:"4 × 3 = 12 dan 7 × 3 = 21, jadi 4 : 7 = 12 : 21."},
+ {k:"HOTS",q:"Resep kue memerlukan 3 gelas tepung untuk 2 butir telur. Ani punya 12 gelas tepung dan 9 butir telur. Jika resep dibuat dengan rasio yang tetap dan tepungnya dihabiskan, berapa butir telur yang tersisa?",o:["0 butir","1 butir","2 butir","3 butir"],a:1,e:"12 gelas tepung = 3 × 4, jadi telur yang dipakai 2 × 4 = 8 butir. Sisa 9 − 8 = 1 butir."}]},
+{n:"Skala & Jumlah",qs:[
+ {k:"LOTS",q:"Skala sebuah denah adalah 1 : 200. Panjang ruangan di denah 5 cm. Berapa panjang sebenarnya?",o:["1 m","10 m","100 m","1.000 m"],a:1,e:"5 cm × 200 = 1.000 cm = 10 m."},
+ {k:"MOTS",q:"Uang Ani dan Budi berbanding 2 : 5. Jumlah uang mereka Rp70.000. Berapa uang Budi?",o:["Rp20.000","Rp30.000","Rp40.000","Rp50.000"],a:3,e:"Total bagian 2 + 5 = 7. Satu bagian = 70.000 ÷ 7 = 10.000. Budi 5 × 10.000 = Rp50.000."},
+ {k:"HOTS",q:"Pada peta berskala 1 : 500.000, jarak kota A ke kota B adalah 6 cm. Pak Dedi naik motor dengan kecepatan 30 km/jam. Berapa lama perjalanannya?",o:["30 menit","1 jam","1,5 jam","2 jam"],a:1,e:"6 × 500.000 = 3.000.000 cm = 30 km. Waktu = 30 km ÷ 30 km/jam = 1 jam."}]},
+{n:"Perbandingan Senilai",qs:[
+ {k:"LOTS",q:"Harga 3 buku adalah Rp15.000. Berapa harga 6 buku yang sama?",o:["Rp25.000","Rp30.000","Rp45.000","Rp20.000"],a:1,e:"6 buku = 2 × 3 buku, jadi harganya 2 × 15.000 = Rp30.000."},
+ {k:"MOTS",q:"Sebuah mobil menghabiskan 2 liter bensin untuk menempuh 24 km. Berapa liter bensin untuk menempuh 60 km?",o:["4 liter","5 liter","6 liter","7 liter"],a:1,e:"24 km per 2 liter = 12 km per liter. 60 ÷ 12 = 5 liter."},
+ {k:"HOTS",q:"Toko A menjual 4 pensil seharga Rp10.000. Toko B menjual 6 pensil seharga Rp14.400. Pernyataan yang benar adalah …",o:["Toko A lebih murah Rp100 per pensil","Toko B lebih murah Rp100 per pensil","Harga per pensil sama","Toko B lebih murah Rp400 per pensil"],a:1,e:"Toko A: 10.000 ÷ 4 = Rp2.500. Toko B: 14.400 ÷ 6 = Rp2.400. Toko B lebih murah Rp100 per pensil."}]},
+{n:"Master Rasio",qs:[
+ {k:"LOTS",q:"Dari 40 siswa, 15 siswa ikut Pramuka. Berapa rasio siswa yang ikut : tidak ikut Pramuka dalam bentuk paling sederhana?",o:["3 : 5","3 : 8","5 : 3","15 : 40"],a:0,e:"Yang tidak ikut = 40 − 15 = 25. Rasio 15 : 25 = 3 : 5."},
+ {k:"MOTS",q:"Kelereng Rina dan Sari berbanding 3 : 4. Jumlah kelereng mereka 56. Berapa selisih kelereng mereka?",o:["4","8","12","16"],a:1,e:"3 + 4 = 7 bagian, 1 bagian = 56 ÷ 7 = 8. Selisih 4 − 3 = 1 bagian = 8."},
+ {k:"HOTS",q:"Cat dicampur dengan rasio putih : biru = 5 : 3 sebanyak 40 liter. Kemudian ditambah 8 liter cat biru. Berapa rasio putih : biru yang baru?",o:["5 : 3","5 : 4","25 : 23","25 : 15"],a:2,e:"Putih = 5/8 × 40 = 25 L, biru = 15 L. Setelah ditambah 8 L, biru = 23 L. Rasio baru 25 : 23."}]}
+];
+const L=['A','B','C','D'],TIME=25;
+const $=id=>document.getElementById(id);
+let name='',lv=0,qi=0,score=0,right=0,tleft=TIME,tid=null,locked=true,camMode=false,cur=null;
+
+/* ===== SUARA ===== */
+let AC=null;
+function tone(f,d,t='sine',v=.15,when=0){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type=t;o.frequency.value=f;g.gain.setValueAtTime(v,AC.currentTime+when);g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+when+d);o.connect(g);g.connect(AC.destination);o.start(AC.currentTime+when);o.stop(AC.currentTime+when+d)}catch(e){}}
+const sOK=()=>[523,659,784,1047].forEach((f,i)=>tone(f,.18,'triangle',.18,i*.09));
+const sNO=()=>{tone(220,.25,'sawtooth',.15);tone(150,.4,'sawtooth',.15,.2)};
+const sTick=()=>tone(900,.05,'square',.05);
+const sSel=()=>tone(700,.1,'square',.1);
+const sWin=()=>[523,659,784,659,784,1047,1319].forEach((f,i)=>tone(f,.2,'triangle',.18,i*.12));
+
+/* ===== KONFETI ===== */
+const cv=$('conf'),cx=cv.getContext('2d');let parts=[],raf=0;
+function burst(n=90,good=true){cv.width=innerWidth;cv.height=innerHeight;const cs=good?['#19f3ff','#ff2bd6','#ffe629','#35ff8a']:['#ff4d5e','#888'];
+ for(let i=0;i<n;i++)parts.push({x:innerWidth/2,y:innerHeight/2,vx:(Math.random()-.5)*16,vy:(Math.random()-.8)*14,s:5+Math.random()*7,c:cs[i%cs.length],l:70+Math.random()*30});
+ if(!raf)anim()}
+function anim(){cx.clearRect(0,0,cv.width,cv.height);parts=parts.filter(p=>p.l>0);parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.35;p.l--;cx.fillStyle=p.c;cx.fillRect(p.x,p.y,p.s,p.s)});raf=parts.length?requestAnimationFrame(anim):0}
+
+/* ===== ALUR GAME ===== */
+function show(id){document.querySelectorAll('.scr').forEach(s=>s.classList.toggle('on',s.id===id))}
+function startGame(){
+  name=$('nm').value.trim();
+  if(!name){$('st').textContent='Isi namamu dulu ya!';$('nm').focus();return false}
+  lv=0;qi=0;score=0;right=0;$('sc').textContent=0;$('pn').textContent='👾 '+name;show('game');nextLevelIntro();return true}
+function nextLevelIntro(){
+  locked=true;$('ih').textContent='LEVEL '+(lv+1);$('ip').textContent=LV[lv].n;
+  const o=$('intro');o.classList.remove('on');void o.offsetWidth;o.classList.add('on');
+  $('ih').style.animation='none';void $('ih').offsetWidth;$('ih').style.animation='';
+  tone(440,.15,'square');tone(660,.15,'square',.12,.15);tone(880,.3,'square',.12,.3);
+  renderLv();setTimeout(()=>{o.classList.remove('on');loadQ()},1700)}
+function renderLv(){$('lv').innerHTML='LV '+(lv+1)+'/5 '+LV.map((_,i)=>'<span class="dot '+(i<lv?'d':i===lv?'c':'')+'"></span>').join('')+' · Soal '+(qi+1)+'/3'}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+let Q=null;
+function loadQ(){
+  const q=LV[lv].qs[qi];
+  const opts=shuffle(q.o.map((t,i)=>({t,ok:i===q.a})));
+  Q={...q,opts};renderLv();
+  $('qk').textContent=({LOTS:'LOTS · Mudah',MOTS:'MOTS · Sedang',HOTS:'HOTS · Tantangan'})[q.k];
+  $('qt').textContent=q.q;
+  $('ans').innerHTML='';
+  opts.forEach((o,i)=>{const b=document.createElement('button');b.className='ans hand';b.innerHTML='<i>'+L[i]+'</i><span>'+o.t+'</span>';b.onclick=()=>pick(i,b);$('ans').appendChild(b)});
+  locked=false;tleft=TIME;tick();clearInterval(tid);tid=setInterval(()=>{tleft--;tick();if(tleft<=5&&tleft>0)sTick();if(tleft<=0){clearInterval(tid);pick(-1)}},1000)}
+function tick(){$('tm').textContent='⏱ '+tleft;$('tm').className='chip'+(tleft<=8?' lo':'');$('bar').style.transform='scaleX('+(tleft/TIME)+')'}
+function pick(i,btn){
+  if(locked)return;locked=true;clearInterval(tid);sSel();
+  const bs=[...document.querySelectorAll('.ans')];
+  const ok=i>=0&&Q.opts[i].ok;
+  bs.forEach((b,j)=>{b.classList.add('dim')});
+  if(i>=0){btn.classList.remove('dim');btn.insertAdjacentHTML('beforeend','<span class="lock">🔒</span>')}
+  const ci=Q.opts.findIndex(o=>o.ok);bs[ci].classList.remove('dim');
+  setTimeout(()=>{
+    if(i>=0)btn.classList.add(ok?'ok':'no');bs[ci].classList.add('ok');
+    let add=0;if(ok){add=100+tleft*4;score+=add;right++;sOK();burst(110,true)}else{sNO();burst(30,false)}
+    $('sc').textContent=score;
+    $('fbi').textContent=ok?'🎉':(i<0?'⏰':'💥');
+    $('fbt').textContent=ok?'BENAR! Hebat, '+name+'!':(i<0?'Waktu habis!':'Belum tepat, '+name);
+    $('fbt').style.color=ok?'var(--gr)':'var(--rd)';
+    $('fbe').innerHTML='<b>Jawaban: '+L[ci]+'. '+Q.opts[ci].t+'</b><br>'+Q.e;
+    $('fbs').textContent=ok?'+'+add+' poin':'+0 poin';
+    $('nx').textContent=(lv===4&&qi===2)?'LIHAT HASIL ▶':'LANJUT ▶';
+    setTimeout(()=>$('fb').classList.add('on'),ok?500:600)},500)}
+$('nx').onclick=()=>{
+  $('fb').classList.remove('on');
+  if(++qi>2){qi=0;lv++;if(lv>4){return finish()}nextLevelIntro()}else loadQ()};
+function finish(){
+  show('s2');sWin();burst(200,true);
+  const st=right>=13?3:right>=8?2:right>=4?1:0;
+  $('stars').textContent='⭐'.repeat(st)+'☆'.repeat(3-st);
+  $('rs').textContent=score+' POIN';
+  let t,m;
+  if(right>=13){t='JENIUS RASIO!';m='Luar biasa, '+name+'! Kamu menjawab benar '+right+' dari 15 soal. Rasio, skala, dan perbandingan sudah kamu kuasai. Ajari temanmu juga ya!'}
+  else if(right>=8){t='PAHLAWAN RASIO!';m='Keren, '+name+'! Kamu menjawab benar '+right+' dari 15 soal. Sedikit latihan lagi pada soal HOTS dan kamu jadi jenius rasio!'}
+  else if(right>=4){t='PETUALANG HEBAT!';m='Bagus, '+name+'! Kamu menjawab benar '+right+' dari 15 soal. Baca lagi penjelasan tiap soal, lalu coba main lagi untuk mengalahkan skormu.'}
+  else{t='SEMANGAT TERUS!';m='Jangan menyerah, '+name+'! Kamu benar '+right+' dari 15 soal. Mulailah dari menyederhanakan rasio, lalu coba lagi. Pasti bisa!'}
+  $('rt').textContent=t;$('rm').textContent=m}
+$('again').onclick=()=>{show('s0');$('st').textContent=''};
+
+/* ===== TOMBOL MULAI ===== */
+$('bMouse').onclick=()=>{stopCam();if(startGame())document.body.dataset.mode='mouse'};
+$('nm').addEventListener('keydown',e=>{if(e.key==='Enter')$('bMouse').click()});
+$('bCam').onclick=async()=>{
+  if(!$('nm').value.trim()){$('st').textContent='Isi namamu dulu ya!';$('nm').focus();return}
+  $('st').textContent='Meminta izin kamera…';
+  try{await initCam();camMode=true;$('st').textContent='';startGame()}
+  catch(e){console.warn(e);stopCam();$('st').textContent='Kamera belum bisa dipakai ('+(e&&e.name==='NotAllowedError'?'izin ditolak':'periksa kamera & koneksi internet')+'). Pakai tombol mouse/sentuh ya.'}};
+
+/* ===== MEDIAPIPE HANDS ===== */
+let stream=null,hands=null,run=false,busy=false,pinched=false,lastClick=0,hov=null,sm={x:innerWidth/2,y:innerHeight/2};
+const V=$('cam'),C=$('cur');
+function loadScript(src){return new Promise((res,rej)=>{if(window.Hands)return res();const s=document.createElement('script');s.src=src;s.crossOrigin='anonymous';s.onload=res;s.onerror=()=>rej(new Error('script'));document.head.appendChild(s)})}
+async function initCam(){
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)throw new Error('nocam');
+  stream=await navigator.mediaDevices.getUserMedia({video:{width:640,height:480,facingMode:'user'},audio:false});
+  V.srcObject=stream;await V.play();V.style.display='block';
+  $('st').textContent='Memuat pelacak tangan (butuh internet)…';
+  await loadScript('https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/hands.js');
+  hands=new Hands({locateFile:f=>'https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/'+f});
+  hands.setOptions({maxNumHands:1,modelComplexity:1,minDetectionConfidence:.6,minTrackingConfidence:.6});
+  hands.onResults(onHand);
+  await hands.initialize();
+  run=true;C.style.display='block';loop()}
+async function loop(){
+  if(!run)return;
+  if(V.readyState>=2&&!busy){busy=true;try{await hands.send({image:V})}catch(e){}busy=false}
+  requestAnimationFrame(loop)}
+function stopCam(){run=false;camMode=false;C.style.display='none';V.style.display='none';if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}}
+const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
+function onHand(r){
+  const h=r.multiHandLandmarks&&r.multiHandLandmarks[0];
+  if(!h){C.style.opacity=.25;pinched=false;return}
+  C.style.opacity=1;
+  const p=h[9];  // pangkal jari tengah = pusat telapak
+  const tx=(1-p.x)*innerWidth,ty=p.y*innerHeight;
+  // saat mencubit posisi tidak ikut bergeser: bekukan kursor
+  const ratio=dist(h[4],h[8])/dist(h[0],h[9]);
+  const was=pinched;
+  if(!pinched&&ratio<.3)pinched=true;else if(pinched&&ratio>.45)pinched=false;
+  if(!pinched){sm.x+=(tx-sm.x)*.45;sm.y+=(ty-sm.y)*.45}
+  C.style.transform='translate('+sm.x+'px,'+sm.y+'px)'+(pinched?' scale(.7)':'');
+  C.classList.toggle('pin',pinched);
+  const el=document.elementFromPoint(sm.x,sm.y),t=el&&el.closest?el.closest('.hand'):null;
+  if(t!==hov){if(hov)hov.classList.remove('hov');if(t)t.classList.add('hov');hov=t}
+  if(pinched&&!was&&t&&Date.now()-lastClick>600){lastClick=Date.now();t.click()}}
+</script>
+</body>
+</html>
